@@ -11,23 +11,30 @@ const wss = new WebSocketServer({ server });
 //   console.error(err);
 // };
 
+const webSockets = {};
+
 wss.on("connection", (ws, request, client) => {
-  console.log("client is connected");
+
+  const userID = request.url.slice(1).split("%20").join(" ");
+  webSockets[userID] = ws;
+
+  console.log('connected: ' + userID)
 
   ws.on("error", console.error);
 
   ws.on("message", (data) => {
+
     console.log("received: %s", data);
     postMessage(data).then((sentMessage) => {
-      wss.clients.forEach((client) => {
-        if (client !== ws && client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(sentMessage));
-        }
-      });
+      const receiver = sentMessage.between.filter((user) => {
+        return user !== sentMessage.from;
+      })[0];
+      const toUserWebSocket = webSockets[receiver];
+      toUserWebSocket.send(JSON.stringify(sentMessage));
     });
   });
 
-  ws.send("you are connected");
+  ws.send("you are connected, " + userID);
 
   ws.on("close", () => {
     console.log("client disconnected");
