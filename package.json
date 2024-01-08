@@ -2,16 +2,17 @@
   "name": "books-sharing-wss",
   "version": "1.0.0",
   "description": "",
-  "main": "listen.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node listen.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "mongoose": "^8.0.3",
     "ws": "^8.16.0"
   }
