@@ -30,14 +30,17 @@ wss.on("connection", (ws, request, client) => {
         return user !== sentMessage.from;
       })[0];
       const toUserWebSocket = webSockets[receiver];
-      toUserWebSocket.send(JSON.stringify(sentMessage));
+      if (toUserWebSocket) {
+        toUserWebSocket.send(JSON.stringify(sentMessage));
+      }
     });
   });
 
   ws.send("you are connected, " + userID);
 
   ws.on("close", () => {
-    console.log("client disconnected");
+    delete webSockets[userID];
+    console.log(userID + " disconnected");
   });
 });
 
