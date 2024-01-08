@@ -1,12 +1,10 @@
 const { insertMessage } = require("../models/messages.models");
 
 exports.postMessage = (data) => {
-  const message = {
-    between: ["Sarah Blue", "David Black"].sort(),
-    from: "Sarah Blue",
-    timestamp: new Date().toISOString(),
-    body: data,
-  };
+  const message = JSON.parse(data);
 
-  return insertMessage(message)
+  message.timestamp = new Date().toISOString();
+  message.between.sort();
+
+  return insertMessage(message);
 };

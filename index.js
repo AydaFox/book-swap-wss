@@ -14,18 +14,15 @@ const wss = new WebSocketServer({ server });
 wss.on("connection", (ws, request, client) => {
   console.log("client is connected");
 
-  console.log(request, "client that has connected")
   ws.on("error", console.error);
 
-  ws.on("message", (data, isBinary) => {
+  ws.on("message", (data) => {
     console.log("received: %s", data);
-    postMessage(data.toString()).then((sentMessage) => {
+    postMessage(data).then((sentMessage) => {
       wss.clients.forEach((client) => {
         if (client !== ws && client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify(sentMessage));
         }
-        console.log(sentMessage)
-
       });
     });
   });
