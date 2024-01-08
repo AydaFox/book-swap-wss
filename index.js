@@ -1,9 +1,10 @@
+const express = require("express");
 const { WebSocketServer } = require("ws");
-const server = require("http").createServer();
 const db = require("./db/connection");
 const { postMessage } = require("./controllers/messages.controllers");
 
-const wss = new WebSocketServer({ server });
+const app = express();
+const wss = new WebSocketServer({ noServer: true });
 
 const webSockets = {};
 
@@ -48,4 +49,10 @@ wss.on("connection", (ws, request) => {
   });
 });
 
-module.exports = server;
+const server = app.listen(3000);
+
+server.on("upgrade", (request, socket, head) => {
+  wss.handleUpgrade(request, socket, head, (socket) => {
+    wss.emit("connection", socket, request);
+  });
+});
