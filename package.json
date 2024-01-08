@@ -2,9 +2,10 @@
   "name": "books-sharing-wss",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "listen.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node listen.js"
   },
   "keywords": [],
   "author": "",
