@@ -48,6 +48,4 @@ wss.on("connection", (ws, request) => {
   });
 });
 
-server.listen(9090, () => {
-  console.log("listening on port 9090");
-});
+module.exports = server;
