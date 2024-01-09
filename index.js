@@ -24,8 +24,12 @@ wss.on("connection", (ws, request) => {
   ws.on("error", console.error);
 
   ws.on("message", (data) => {
+    console.log({ messageReceived: data });
+
     postMessage(data)
       .then((sentMessage) => {
+        console.log({ messageSent: sentMessage });
+
         const receiver = sentMessage.between.filter((user) => {
           return user !== sentMessage.from;
         })[0];
