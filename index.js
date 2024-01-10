@@ -10,13 +10,7 @@ const webSockets = {};
 
 wss.on("connection", (ws, request) => {
   let userID = request.url.slice(1).split("%20").join(" ");
-  if (webSockets[userID]) {
-    console.log(userID + " already connected");
-    userID = "unauthorised";
-    ws.terminate();
-  } else {
-    webSockets[userID] = ws;
-  }
+  webSockets[userID] = ws;
 
   console.log("connected: " + userID);
   console.log("concurrent users: ", Object.keys(webSockets));
@@ -42,8 +36,6 @@ wss.on("connection", (ws, request) => {
         console.log(err);
       });
   });
-
-  ws.send("you are connected, " + userID);
 
   ws.on("close", () => {
     delete webSockets[userID];
